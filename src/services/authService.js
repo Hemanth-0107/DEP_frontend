@@ -26,20 +26,23 @@ class AuthServices{
     }
 
     async login(user){
-        return axios
+        return await axios
         .post(API_URL+'signin', {
             email:user.email,
             password: user.password
         })
         .then( res =>{
+            console.log(res.data);
             if(res.data.accessToken){
                 localStorage.setItem('user',JSON.stringify(res.data));
+                console.log(JSON.parse(localStorage.getItem('user')).roles)
+                window.location.href = `/${JSON.parse(localStorage.getItem('user')).roles}/dashboard`;
             }
             else if(res.data.refreshToken){
                 localStorage.setItem('refreshToken',res.data.refreshToken);
             }
             return res.data;
-        });
+        })
         
     }
 

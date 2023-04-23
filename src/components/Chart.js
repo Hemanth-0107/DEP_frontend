@@ -31,17 +31,19 @@ const Chart = () => {
     { week: 22, rating: 64 },
     { week: 23, rating: 59 },
   ];
+  data.map((data,_) => data.rating = data.rating/20)
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <XAxis dataKey="week" label={{ value: 'Week of Year', position: 'insideBottomRight' }} interval={2} stroke={colorMode === 'light' ? '#18202c' : '#2e3544'} />
-        <YAxis label={{ value: 'Rating %', angle: -90, position: 'insideLeft' }} suffix="%" stroke={colorMode === 'light' ? '#18202c' : '#2e3544'} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="rating" stroke={colorMode === 'light' ? '#0072b2' : '#56b4e9'} activeDot={{ r: 8 }} />
-      </LineChart>
-    </ResponsiveContainer>
+    <LineChart data={data}>
+      <XAxis dataKey="week" label={{ value: 'Week of Year', position: 'insideBottomRight' }} interval={2} stroke={colorMode === 'light' ? '#18202c' : '#2e3544'} />
+      <YAxis label={{ value: 'Rating %', angle: -90, position: 'insideLeft' }} suffix="%" stroke={colorMode === 'light' ? '#18202c' : '#2e3544'} />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="rating" stroke={colorMode === 'light' ? '#0072b2' : '#56b4e9'} activeDot={{ r: 8 }} />
+    </LineChart>
+  </ResponsiveContainer>
+  
   );
 };
 

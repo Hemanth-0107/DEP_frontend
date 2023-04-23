@@ -27,21 +27,10 @@ const Arrow = createIcon({
   ),
 });
 
-export default function Dashboard({
-  currentUser,
-  showAdminBoard,
-  showmoderatorBoard,
-}) {
+export default function Dashboard({currentUser}) {
   const textColor = useColorModeValue("gray.600", "gray.400");
   if (!currentUser) {
-    window.location.href = "/denyAccess";
-    setTimeout(() => {return <Denyaccess/>;},3500)
     window.location.href='/login'
-    
-  }
-  else if(showAdminBoard || showmoderatorBoard) {
-    window.location.href = "/denyAccess";
-    return <Denyaccess/>;
   }
   return (
     <>
@@ -97,8 +86,9 @@ export default function Dashboard({
               _hover={{
                 bg: "green.500",
               }}
+               onClick={() => window.location.href='/give-rating'}
             >
-              Give your 1st Review
+              Give your Review
             </Button>
             <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
               Learn more

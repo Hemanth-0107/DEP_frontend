@@ -18,7 +18,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -39,19 +38,22 @@ const renderCustomizedLabel = ({
 
 export default function PieGraph() {
   return (
-    <PieChart width={800} height={800} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+    <PieChart width={350} height={350} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
       <Pie
         data={data}
-        cx={400}
-        cy={400}
+        cx={200}
+        cy={200}
         labelLine={false}
         label={renderCustomizedLabel}
-        outerRadius={120}
+        outerRadius={110}
         fill="#8884d8"
         dataKey="value"
       >
-        {data.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        {data.map((name, index) => (
+          <Cell 
+          key={`${name}-${index}`} 
+          fill={COLORS[index % COLORS.length]} 
+          />
         ))}
       </Pie>
     </PieChart>

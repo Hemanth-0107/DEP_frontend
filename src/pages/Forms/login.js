@@ -37,7 +37,7 @@ export default function Login() {
     console.log(user.email, user.password);
     AuthService.login(user).then(
       () => {
-        window.location.href = "/user/dashboard";
+        console.log("logged in")
       },
       (error) => {
         const resMessage =

@@ -8,7 +8,7 @@ import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import AuthService from "../services/authService";
 
 const Links = ["Dashboard", "About Us", "News"];
-const targets = ["/user/dashboard", "/about", "/news"];
+const targets = [`/${JSON.parse(localStorage.getItem('user'))?.roles}/dashboard`, "/about", "/news"];
 
 export function Navbar({ currentUser }) {
   const { isOpen, onOpen, onClose } = useDisclosure();

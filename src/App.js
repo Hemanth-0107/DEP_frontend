@@ -23,24 +23,16 @@ import Success from "./pages/Forms/Thankyou"
 import SimpleSkull from './pages/skeleton';
 import News from './pages/News';
 import CDashboard from './pages/contractor/dashboard'
-import Denyaccesss from "./pages/Denyaccess";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [showmoderatorBoard, setShowModeratorBoard] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     setCurrentUser(user);
-    if(currentUser) {
-      setShowAdminBoard(currentUser?.roles?.includes("ROLE_ADMIN"));
-      setShowModeratorBoard(currentUser?.roles?.includes("ROLE_MODERATOR"));
-    }
     setTimeout(() => setLoading(false), 100);
   }, []);
-
   return (
     <>
       <Navbar currentUser={currentUser} />
@@ -50,36 +42,44 @@ function App() {
       ) : (
         // Show the page content after loading
         <Routes >
+          {currentUser && (
+            <>
+              <Route path='/moderator/dashboard' element={
+            <CDashboard currentUser={currentUser} showmoderatorBoard={currentUser?.roles==='moderator'?true:false}/>
+            } />
+            <Route path="/adminstraton/dashboard" element={
+            <Dashboard showAdminBoard={currentUser?.roles==='adminstraton'?true:false} 
+            currentUser={currentUser} 
+            showmoderatorBoard={currentUser?.roles==='moderator'?true:false}/>} />
+
+            <Route path="/user/dashboard" element={
+            <UserDashboard currentUser={currentUser}
+            showAdminBoard={currentUser?.roles==='adminstraton'?true:false}/>} />
+
+            <Route path='/editprofile' element={<EditProfile />} />
+
+            </>
+          )}
           <Route path="/" element={<Landing />} />
-          <Route path='/denyAccess' element={<Denyaccesss/>} />
+          {/* <Route path='/denyAccess' element={<Denyaccesss/>} /> */}
           <Route path="/*" element={<NotFound />} />
           <Route path='/details/:id' element={<Simple />} />
           <Route path="/about" element={<About />} />
 
-          <Route path='/contractor/dashboard' element={
-          <CDashboard currentUser={currentUser} showmoderatorBoard={showmoderatorBoard}/>
-          } />
-          <Route path="/admin/dashboard" element={
-          <Dashboard showAdminBoard={showAdminBoard} 
-          currentUser={currentUser} 
-          showmoderatorBoard={showmoderatorBoard}/>} />
-
-          <Route path="/user/dashboard" element={
-          <UserDashboard currentUser={currentUser}
-          showAdminBoard={showAdminBoard}/>} />
+          
           
           <Route path="/register" element={<Register />} />
           <Route path="/otp" element={<OTP />} />
           <Route path='/table' element={<Table />} />
           <Route path="/login/forgotpassword" element={<ForgotPassword />} />
-          <Route path='/editprofile' element={<EditProfile />} />
+         
           <Route path='/give-rating' element={<RatingForm />} />
           <Route path='/success' element={<Success />} />
           <Route path='/news' element={<News />} />
 
           <Route path="/login" element={currentUser !== null ?
-            <Dashboard showAdminBoard={showAdminBoard} currentUser={currentUser}/> :
-            <Login showAdminBoard={setShowAdminBoard} currentUser={setCurrentUser}/>} />
+            <Dashboard showAdminBoard={currentUser?.roles==='adminstraton'?true:false} currentUser={currentUser}/> :
+            <Login showAdminBoard={currentUser?.roles==='adminstraton'?true:false} currentUser={setCurrentUser}/>} />
         </Routes>
       )}
       <Footer/>
